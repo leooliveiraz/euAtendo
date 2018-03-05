@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import rocha.euAtendo.model.Usuario;
+import rocha.euAtendo.model.PlanoConvenio;
 
 @Repository
-public interface UsuarioRepository  extends CrudRepository<Usuario, Long> {	
-	List<Usuario> findByEmail(String nome);
+public interface PlanoConvenioRepository  extends CrudRepository<PlanoConvenio, Long> {	
+	List<PlanoConvenio> findByNome(String nome);
 }
 
 

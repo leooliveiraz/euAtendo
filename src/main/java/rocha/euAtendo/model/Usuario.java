@@ -1,11 +1,14 @@
 	package rocha.euAtendo.model;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,12 +23,13 @@ public class Usuario implements UserDetails {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
-	private String username;
 	private String senha;
-	private String cpf;
 	private String email;
-	private String celular;
+	@ManyToOne(targetEntity=Empresa.class)
+	@JoinColumn(name="id_empresa",referencedColumnName="id")
+	private Empresa empresa;
+	private Date dt_registro;
+	private Boolean ativo;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -37,7 +41,7 @@ public class Usuario implements UserDetails {
 	}
 	@Override
 	public String getUsername() {
-		return username;
+		return getEmail();
 	}
 	@Override
 	public boolean isAccountNonExpired() {
@@ -53,7 +57,7 @@ public class Usuario implements UserDetails {
 	}
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return ativo;
 	}
 	
 }

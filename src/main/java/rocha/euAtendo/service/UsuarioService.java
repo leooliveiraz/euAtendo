@@ -21,14 +21,6 @@ public class UsuarioService {
 		Usuario u =	usuarioRepository.findByEmail(email).get(0);
 		return u;
 	}
-	public UserDetails buscarPorUsername(String username) {
-		Usuario u =	usuarioRepository.findByUsername(username).get(0);
-		return u;
-	}
-	public UserDetails buscarUsuarioGeral(String username) {
-		Usuario u =	usuarioRepository.findByUsernameOrEmailOrCelular(username, username, username).get(0);
-		return u;
-	}
 	
 	public void salvar(Usuario usuario) {
 		try {
@@ -41,9 +33,7 @@ public class UsuarioService {
 	
 	public void alterar(Usuario usuario) {
 		Usuario usuarioValidacao = encontrar(usuario.getEmail());
-		System.out.println(usuario.getSenha()+"===="+usuarioValidacao.getSenha()+" a "+(usuario.getEmail().equals(usuarioValidacao.getEmail())));
 		if(!usuario.getSenha().equals(usuarioValidacao.getSenha())) {
-			System.out.println("diferente");
 			usuario.setSenha(SenhaUtil.criptografarSHA2(usuario.getSenha()));
 		}
 		usuarioRepository.save(usuario);
@@ -56,9 +46,6 @@ public class UsuarioService {
 	}
 	public Usuario encontrar(String email) {
 		return usuarioRepository.findByEmail(email).get(0);
-	}
-	public Usuario encontrarCPF(String cpf) {
-		return usuarioRepository.findByCpf(cpf).get(0);
 	}
 	
 
