@@ -45,13 +45,18 @@ public class UsuarioService {
 		return usuarios;
 	}
 	public Usuario encontrar(String email) {
-		return usuarioRepository.findByEmail(email).get(0);
+		List<Usuario> usuarios = usuarioRepository.findByEmail(email);
+		if(usuarios != null && !usuarios.isEmpty()) {
+			Usuario usuario = usuarios.get(0);
+			return usuario;
+		}else {
+			return null;
+		}
 	}
 	
 
 	public Boolean verificaExistencia(Usuario usuario) {
 		try {
-
 			Usuario usuarioExiste = usuarioRepository.findByEmail(usuario.getEmail()).get(0);
 			if(usuarioExiste !=null)
 				if(usuarioExiste.getEmail()!=null)
