@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rocha.euAtendo.dto.EspecialidadeDTO;
-import rocha.euAtendo.dto.EspecialidadeRemoverDTO;
 import rocha.euAtendo.model.Especialidade;
 import rocha.euAtendo.model.Usuario;
 import rocha.euAtendo.service.EspecialidadeService;
@@ -54,10 +53,9 @@ public class EspecialidadeController {
 	}
 
 	@RequestMapping(value="/remover",method=RequestMethod.POST)
-	public ResponseEntity<String> remover(@RequestBody EspecialidadeRemoverDTO dto, @RequestHeader(value="Authorization") String authorization) {
+	public ResponseEntity<String> remover(@RequestBody EspecialidadeDTO dto, @RequestHeader(value="Authorization") String authorization) {
 		try {	
 			Usuario usuario =  AuthUtil.retornaUsuarioLogado(authorization);
-			
 			especialidadeService.remover(dto,usuario.getEmpresa());
 			return ResponseEntity.status(HttpStatus.ACCEPTED)                 
 		            .body("");

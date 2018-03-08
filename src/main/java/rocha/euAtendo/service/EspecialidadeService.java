@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javassist.NotFoundException;
 import rocha.euAtendo.dto.EspecialidadeDTO;
-import rocha.euAtendo.dto.EspecialidadeRemoverDTO;
 import rocha.euAtendo.model.Empresa;
 import rocha.euAtendo.model.Especialidade;
 import rocha.euAtendo.model.Usuario;
@@ -55,17 +54,23 @@ public class EspecialidadeService {
 	public List<EspecialidadeDTO> listarDtos(Empresa empresa) {
 		List<Especialidade> lista = especialidadeRepository.findByEmpresa(empresa);
 		List<EspecialidadeDTO> dtos = new ArrayList<>();
-		lista.stream().sorted(Comparator.comparing(Especialidade::getNome)).forEach(esp -> dtos.add(new EspecialidadeDTO(esp)));
+		lista.stream().sorted(Comparator.comparing(Especialidade::getNome)).forEach(esp -> dtos.add(novoDto(esp)));
 		
 		return dtos;
 	}
 
-	public void remover(EspecialidadeRemoverDTO especialidade, Empresa empresa) throws NotFoundException {
+	public void remover(EspecialidadeDTO especialidade, Empresa empresa) throws NotFoundException {
 		List<Especialidade> lista = especialidadeRepository.findByIdAndEmpresa(especialidade.getId(),empresa);
 		if(lista == null || lista.isEmpty()) {
 			throw new NotFoundException("Registro não encontrado.");
 		}else {
 			lista.forEach(esp -> especialidadeRepository.delete(esp));
 		}
+	}
+	
+	public EspecialidadeDTO novoDto(Especialidade esp) {
+		EspecialidadeDTO dto = new EspecialidadeDTO();
+		dto.preencher(esp);
+		return dto;
 	}
 }
