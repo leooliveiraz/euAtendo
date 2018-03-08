@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rocha.euAtendo.model.Usuario;
 import rocha.euAtendo.service.UsuarioService;
+import rocha.euAtendo.util.AuthUtil;
 
 @RestController
 @RequestMapping("/usuario")
@@ -31,10 +33,9 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="/buscarnome", method=RequestMethod.POST)
-	public ResponseEntity<String> home(@RequestBody String email) {
+	public ResponseEntity<String> home(@RequestHeader(value="Authorization") String authorization) {
 		try {
-			email = URLDecoder.decode(email, "ASCII");
-			email = email.replaceAll("=", "");
+			String email = AuthUtil.retornaEmailLogado(authorization);
 			Usuario usuario = (Usuario) usuarioService.buscarPorEmail(email);
 			return ResponseEntity.status(HttpStatus.ACCEPTED)                 
 		            .body(usuario.getEmpresa().getNome());
