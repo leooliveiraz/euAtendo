@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import rocha.euAtendo.dto.EmpresaDTO;
 import rocha.euAtendo.model.Usuario;
 import rocha.euAtendo.service.UsuarioService;
 import rocha.euAtendo.util.AuthUtil;
@@ -42,6 +43,21 @@ public class UsuarioController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN)
 		            .body("Empresa não encontrada");
+		}
+	}
+	
+
+	@RequestMapping(value="/alterarsenha", method=RequestMethod.POST)
+	public ResponseEntity<String> alterarsenha(@RequestBody EmpresaDTO dto, @RequestHeader(value="Authorization") String authorization) {
+		try {
+			Usuario usuario = AuthUtil.retornaUsuarioLogado(authorization);
+			usuarioService.alterarSenha(usuario,dto);			
+			return ResponseEntity.status(HttpStatus.ACCEPTED)                 
+		            .body("");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN)
+		            .body(e.getMessage());
 		}
 
 	}

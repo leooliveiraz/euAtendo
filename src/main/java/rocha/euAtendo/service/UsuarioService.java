@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import rocha.euAtendo.dto.EmpresaDTO;
 import rocha.euAtendo.model.Usuario;
 import rocha.euAtendo.repository.UsuarioRepository;
 import rocha.euAtendo.util.SenhaUtil;
@@ -67,5 +68,16 @@ public class UsuarioService {
 			return Boolean.FALSE;
 		}
 		
+	}
+
+	public void alterarSenha(Usuario usuario, EmpresaDTO dto) throws Exception {
+		usuario.setSenha(dto.getSenha());
+		usuario.setSenha_confirmacao(dto.getSenha_confirmacao());
+		String erros = usuario.validaSenha();
+		if(erros != null && !erros.isEmpty()) {
+			throw new  Exception(erros);
+		}
+		usuario.setSenha(SenhaUtil.criptografarSHA2(usuario.getSenha()));
+		usuarioRepository.save(usuario);
 	}
 }

@@ -2,7 +2,8 @@ package rocha.euAtendo.dto;
 
 import lombok.Data;
 @Data
-public class CadastroEmpresaDTO {
+public class EmpresaDTO {
+	private Long id;
 	private String nome;
 	private String cnpj;
 	private String cep;	
@@ -22,4 +23,5 @@ public class CadastroEmpresaDTO {
 	private String email_login;
 	private String senha;
 	private String senha_confirmacao;
+		
 }

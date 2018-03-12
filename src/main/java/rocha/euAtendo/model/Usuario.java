@@ -71,12 +71,24 @@ public class Usuario implements UserDetails {
 		this.dt_registro = dt_registro;
 		this.ativo = ativo;
 	}
-	
+
 	public String validaObj() {
 		String erros = "";
 		String fim = "\n";
 		if(email == null || email.length() <3 || !email.contains("@")) 
 			erros = erros+"Informe um email válido com pelo menos 3 caracteres."+fim;
+		if(senha == null || senha.isEmpty()) 
+			erros = erros+"Informe uma senha."+fim;
+		if(senha_confirmacao == null || senha_confirmacao.isEmpty()) 
+			erros = erros+"Informe a confirmação da senha."+fim;
+		if(senha != null && senha_confirmacao != null && !senha.equals(senha_confirmacao)) 
+			erros = erros+"Informe senhas iguais."+fim;
+		return erros;
+		
+	}
+	public String validaSenha() {
+		String erros = "";
+		String fim = "\n";
 		if(senha == null || senha.isEmpty()) 
 			erros = erros+"Informe uma senha."+fim;
 		if(senha_confirmacao == null || senha_confirmacao.isEmpty()) 
