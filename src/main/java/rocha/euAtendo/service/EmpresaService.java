@@ -1,11 +1,18 @@
 package rocha.euAtendo.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import rocha.euAtendo.dto.ApresentacaoEmpresaDTO;
+import rocha.euAtendo.dto.ConvenioDTO;
 import rocha.euAtendo.dto.EmpresaDTO;
+import rocha.euAtendo.dto.EspecialidadeDTO;
 import rocha.euAtendo.model.Empresa;
 import rocha.euAtendo.model.Usuario;
 import rocha.euAtendo.repository.EmpresaRepository;
@@ -18,6 +25,10 @@ public class EmpresaService {
 	EmpresaRepository empresaRepository;
 	@Autowired
 	UsuarioService usuarioService;
+	@Autowired
+	ConvenioService convenioService;
+	@Autowired
+	EspecialidadeService especialidadeService;
 	
 	
 	public void salvar( Empresa empresa,Usuario usuario) throws Exception {
@@ -57,4 +68,27 @@ public class EmpresaService {
 			throw new  Exception("Ops ocorreu um erro");			
 		}
 	}
+
+	public List<ApresentacaoEmpresaDTO> listarEstabelecimentos(Integer paginaAtual,Integer tamanho) {
+		PageRequest pageable = new PageRequest(paginaAtual, tamanho);
+		Page<Empresa> page = empresaRepository.findAll(pageable);
+		List<ApresentacaoEmpresaDTO> dtos = new ArrayList<ApresentacaoEmpresaDTO>();
+		for(Empresa e : page.getContent()) {
+			ApresentacaoEmpresaDTO dto = novoApresentacaoEmpresaDTO(e);
+			List<ConvenioDTO> convenios = convenioService.listarDtos(e);
+			dto.setConvenios(convenios);
+			List<EspecialidadeDTO> especialidades = especialidadeService.listarDtos(e);
+			dto.setEspecialidades(especialidades);
+			dtos.add(dto);
+		}
+		return dtos;
+	}
+
+	private ApresentacaoEmpresaDTO novoApresentacaoEmpresaDTO(Empresa empresa) {
+		ApresentacaoEmpresaDTO dto =  new ApresentacaoEmpresaDTO();
+		dto.preencher(empresa);
+		return dto;
+	}
+	
+	
 }
