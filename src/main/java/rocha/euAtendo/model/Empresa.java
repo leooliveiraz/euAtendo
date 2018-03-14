@@ -29,6 +29,7 @@ public class Empresa  {
 	private String email_contato;
 	private String responsavel;
 	private String cpf;
+	private String site;
 	private Date dt_nascimento;
 	private Date dt_cadastro; 
 	
@@ -89,7 +90,7 @@ public class Empresa  {
 
 	public Empresa(String nome, String cnpj, String cep, String uf, String cidade, String bairro, String endereco,
 			String numero, String path_img, String telefone_contato, String email_contato, String responsavel,
-			String cpf, Date dt_nascimento, Date dt_cadastro) {
+			String cpf, Date dt_nascimento, Date dt_cadastro,String site) {
 		super();
 		this.nome = nome;
 		this.cnpj = cnpj;
@@ -106,6 +107,7 @@ public class Empresa  {
 		this.cpf = cpf;
 		this.dt_nascimento = dt_nascimento;
 		this.dt_cadastro = dt_cadastro;
+		this.site = site;
 	}
 
 	public Empresa() {

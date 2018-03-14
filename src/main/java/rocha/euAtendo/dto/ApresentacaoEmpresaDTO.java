@@ -18,6 +18,7 @@ public class ApresentacaoEmpresaDTO {
 	private String path_img;
 	private String telefone_contato;
 	private String email_contato;
+	private String site;
 	
 	private List<ConvenioDTO> convenios;
 	private List<EspecialidadeDTO> especialidades;
@@ -33,6 +34,9 @@ public class ApresentacaoEmpresaDTO {
 		this.bairro = e.getBairro();
 		this.endereco = e.getEndereco();
 		this.numero = e.getNumero();
+		this.telefone_contato = e.getTelefone_contato();
+		this.email_contato = e.getEmail_contato();
+		this.site = e.getSite();
 	}
 
 }

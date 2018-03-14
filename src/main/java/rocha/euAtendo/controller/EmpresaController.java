@@ -30,16 +30,16 @@ public class EmpresaController {
 		try {
 			empresaService.processoNovaEmpresa(dto);
 			return ResponseEntity.status(HttpStatus.ACCEPTED)                 
-		            .body("");
+					.body("");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.FORBIDDEN)
-		            .body(e.getMessage());
+					.body(e.getMessage());
 		}
 
 	}
-	
-	
+
+
 
 	@RequestMapping(value="/empresaAlteracao", method=RequestMethod.GET)
 	public EmpresaDTO empresaAlteracao( @RequestHeader(value="Authorization") String authorization) {
@@ -76,28 +76,20 @@ public class EmpresaController {
 			Usuario usuario = AuthUtil.retornaUsuarioLogado(authorization);
 			empresaService.alterar(dto, usuario.getEmpresa());
 			return ResponseEntity.status(HttpStatus.ACCEPTED)                 
-		            .body("");
+					.body("");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.FORBIDDEN)
-		            .body(e.getMessage());
-		}
-
-	}
-	
-	@RequestMapping(value="/listarempresas", method=RequestMethod.POST)
-	public ResponseEntity<String> listar() {
-		try {
-			List<ApresentacaoEmpresaDTO> empresas = empresaService.listarEstabelecimentos(1);
-			return ResponseEntity.status(HttpStatus.ACCEPTED)                 
-		            .body("");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.FORBIDDEN)
-		            .body(e.getMessage());
+					.body(e.getMessage());
 		}
 
 	}
 
-	
+	@RequestMapping(value="/listarempresas", method=RequestMethod.GET)
+	public List<ApresentacaoEmpresaDTO> listar() {
+		List<ApresentacaoEmpresaDTO> empresas = empresaService.listarEstabelecimentos(0,20);
+		return empresas;
+	}
+
+
 }
