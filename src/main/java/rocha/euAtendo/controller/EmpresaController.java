@@ -61,6 +61,7 @@ public class EmpresaController {
 			dto.setResponsavel(emp.getResponsavel());
 			dto.setCpf(emp.getCpf());
 			dto.setDt_nascimento(DateUtil.dataParaString(emp.getDt_nascimento()));
+			dto.setSite(emp.getSite());
 			return dto;
 		} catch (Exception e) {
 			e.printStackTrace();
