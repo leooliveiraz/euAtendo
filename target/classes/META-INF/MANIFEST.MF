@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: euAtendo
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: leorocha
+Built-By: Leo
 Implementation-Vendor-Id: rocha
-Build-Jdk: 1.8.0_131
+Build-Jdk: 1.8.0_161
 Implementation-URL: http://projects.spring.io/spring-boot/euAtendo/
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.

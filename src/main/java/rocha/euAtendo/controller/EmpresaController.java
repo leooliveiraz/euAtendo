@@ -87,8 +87,8 @@ public class EmpresaController {
 	}
 
 	@RequestMapping(value="/listarempresas", method=RequestMethod.GET)
-	public List<ApresentacaoEmpresaDTO> listar() {
-		List<ApresentacaoEmpresaDTO> empresas = empresaService.listarEstabelecimentos(0,20);
+	public List<ApresentacaoEmpresaDTO> listar( Integer pagina, String pesquisa) {
+		List<ApresentacaoEmpresaDTO> empresas = empresaService.listarEstabelecimentos(pagina,20,pesquisa);
 		return empresas;
 	}
 

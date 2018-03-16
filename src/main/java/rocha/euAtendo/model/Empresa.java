@@ -1,18 +1,21 @@
-	package rocha.euAtendo.model;
+package rocha.euAtendo.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 
 @Data
 @Entity
 public class Empresa  {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -32,7 +35,11 @@ public class Empresa  {
 	private String site;
 	private Date dt_nascimento;
 	private Date dt_cadastro; 
-	
+	@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
+	private List<Especialidade> especialidades;
+	@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
+	private List<Convenio> convenios;
+
 	public String validaObj() {
 		String validacao = "";
 		String fim = "\n";
@@ -47,10 +54,10 @@ public class Empresa  {
 
 		if(cnpj == null || cnpj.length() != 14)
 			validacao = validacao+"Informe um CNPJ com pelo menos 14 caracteres."+fim;
-		
+
 		if(cep == null || cep.length() != 8)
 			validacao = validacao+"Informe um CEP com pelo menos 8 caracteres."+fim;
-		
+
 		if(uf == null || uf.length() != 2)
 			validacao = validacao+"Informe um estado."+fim;
 
@@ -77,14 +84,14 @@ public class Empresa  {
 
 		if(cpf == null || cpf .isEmpty() )
 			validacao = validacao+"Informe o CPF responsável pelo cadastro da empresa."+fim;
-		
+
 		if(dt_nascimento == null )
 			validacao = validacao+"Informe a data de nascimento do  responsável pelo cadastro da empresa."+fim;
-		
+
 		if(dt_cadastro == null  )
 			System.out.println("É necessário informar a data do cadastro do registro.");
 
-		
+
 		return validacao;
 	}
 
@@ -113,5 +120,5 @@ public class Empresa  {
 	public Empresa() {
 		super();
 	}
-	
+
 }

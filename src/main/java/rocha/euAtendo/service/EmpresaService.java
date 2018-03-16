@@ -69,9 +69,17 @@ public class EmpresaService {
 		}
 	}
 
-	public List<ApresentacaoEmpresaDTO> listarEstabelecimentos(Integer paginaAtual,Integer tamanho) {
+	public List<ApresentacaoEmpresaDTO> listarEstabelecimentos(Integer paginaAtual,Integer tamanho,String pesquisa) {
 		PageRequest pageable = new PageRequest(paginaAtual, tamanho);
-		Page<Empresa> page = empresaRepository.findAll(pageable);
+		Page<Empresa> page = null;
+		if(pesquisa.isEmpty()) {
+			page = empresaRepository.findAll(pageable);
+		}else {
+			pesquisa="%"+pesquisa+"%";
+			System.out.println(pesquisa);
+			page = empresaRepository.findByPesquisa
+					(pesquisa,pesquisa,pesquisa,pageable);
+		}
 		List<ApresentacaoEmpresaDTO> dtos = new ArrayList<ApresentacaoEmpresaDTO>();
 		for(Empresa e : page.getContent()) {
 			ApresentacaoEmpresaDTO dto = novoApresentacaoEmpresaDTO(e);
