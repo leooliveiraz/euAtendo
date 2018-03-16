@@ -2,6 +2,8 @@ package rocha.euAtendo.controller;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +24,17 @@ import rocha.euAtendo.util.DateUtil;
 @RestController
 @RequestMapping("/empresa")
 public class EmpresaController {
+
+	@Autowired
+	private ServletContext servletContext;
 	@Autowired
 	EmpresaService empresaService;
 
 	@RequestMapping(value="/cadastrar", method=RequestMethod.POST)
 	public ResponseEntity<String> home(@RequestBody EmpresaDTO dto) {
 		try {
-			empresaService.processoNovaEmpresa(dto);
+			String path = servletContext.getRealPath("/") + "resources/imagemempresa/";
+			empresaService.processoNovaEmpresa(dto,path);
 			return ResponseEntity.status(HttpStatus.ACCEPTED)                 
 					.body("");
 		} catch (Exception e) {
@@ -62,6 +68,7 @@ public class EmpresaController {
 			dto.setCpf(emp.getCpf());
 			dto.setDt_nascimento(DateUtil.dataParaString(emp.getDt_nascimento()));
 			dto.setSite(emp.getSite());
+			dto.setPath_img(emp.getPath_img());
 			return dto;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,7 +82,8 @@ public class EmpresaController {
 	public ResponseEntity<String> mudar(@RequestBody EmpresaDTO dto, @RequestHeader(value="Authorization") String authorization) {
 		try {
 			Usuario usuario = AuthUtil.retornaUsuarioLogado(authorization);
-			empresaService.alterar(dto, usuario.getEmpresa());
+			String path = servletContext.getRealPath("/") + "resources/imagemempresa/";
+			empresaService.alterar(dto, usuario.getEmpresa(),path);
 			return ResponseEntity.status(HttpStatus.ACCEPTED)                 
 					.body("");
 		} catch (Exception e) {

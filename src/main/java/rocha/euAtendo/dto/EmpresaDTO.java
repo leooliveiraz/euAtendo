@@ -16,6 +16,7 @@ public class EmpresaDTO {
 	private String telefone_contato;
 	private String email_contato;
 	private String site;
+	private String fotoempresa;
 	
 	private String responsavel;
 	private String cpf;

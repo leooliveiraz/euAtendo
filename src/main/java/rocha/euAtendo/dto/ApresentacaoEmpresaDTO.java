@@ -37,6 +37,7 @@ public class ApresentacaoEmpresaDTO {
 		this.telefone_contato = e.getTelefone_contato();
 		this.email_contato = e.getEmail_contato();
 		this.site = e.getSite();
+		this.setPath_img(e.getPath_img());
 	}
 
 }
