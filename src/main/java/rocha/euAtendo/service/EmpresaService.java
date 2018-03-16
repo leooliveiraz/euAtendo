@@ -78,7 +78,7 @@ public class EmpresaService {
 			pesquisa="%"+pesquisa+"%";
 			System.out.println(pesquisa);
 			page = empresaRepository.findByPesquisa
-					(pesquisa,pesquisa,pesquisa,pageable);
+					(pesquisa,pesquisa,pesquisa,pesquisa,pageable);
 		}
 		List<ApresentacaoEmpresaDTO> dtos = new ArrayList<ApresentacaoEmpresaDTO>();
 		for(Empresa e : page.getContent()) {
