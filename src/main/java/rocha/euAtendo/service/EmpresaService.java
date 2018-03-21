@@ -17,6 +17,8 @@ import rocha.euAtendo.dto.ApresentacaoEmpresaDTO;
 import rocha.euAtendo.dto.ConvenioDTO;
 import rocha.euAtendo.dto.EmpresaDTO;
 import rocha.euAtendo.dto.EspecialidadeDTO;
+import rocha.euAtendo.dto.ExameImagemDTO;
+import rocha.euAtendo.dto.ExameLaboratorialDTO;
 import rocha.euAtendo.model.Empresa;
 import rocha.euAtendo.model.Usuario;
 import rocha.euAtendo.repository.EmpresaRepository;
@@ -33,6 +35,10 @@ public class EmpresaService {
 	ConvenioService convenioService;
 	@Autowired
 	EspecialidadeService especialidadeService;
+	@Autowired
+	ExameImagemService examesImgService;
+	@Autowired
+	ExameLaboratorialService examesLabService;
 
 
 	public void salvar( Empresa empresa,Usuario usuario,String imagem,String path) throws Exception {
@@ -90,7 +96,7 @@ public class EmpresaService {
 		}else {
 			pesquisa="%"+pesquisa+"%";
 			page = empresaRepository.findByPesquisa
-					(pesquisa,pesquisa,pesquisa,pesquisa,pageable);
+					(pesquisa,pesquisa,pesquisa,pesquisa,pesquisa,pesquisa,pageable);
 		}
 		List<ApresentacaoEmpresaDTO> dtos = new ArrayList<ApresentacaoEmpresaDTO>();
 		for(Empresa e : page.getContent()) {
@@ -99,6 +105,10 @@ public class EmpresaService {
 			dto.setConvenios(convenios);
 			List<EspecialidadeDTO> especialidades = especialidadeService.listarDtos(e);
 			dto.setEspecialidades(especialidades);
+			List<ExameImagemDTO> examesImg = examesImgService.listarDtos(e);
+			dto.setExamesImg(examesImg);
+			List<ExameLaboratorialDTO> examesLab = examesLabService.listarDtos(e);
+			dto.setExamesLab(examesLab);
 			dtos.add(dto);
 		}
 		return dtos;

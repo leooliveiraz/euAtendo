@@ -39,6 +39,10 @@ public class Empresa  {
 	private List<Especialidade> especialidades;
 	@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
 	private List<Convenio> convenios;
+	@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
+	private List<ExameImagem> examesImg;
+	@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
+	private List<ExameLaboratorial> examesLab;
 
 	public String validaObj() {
 		String validacao = "";

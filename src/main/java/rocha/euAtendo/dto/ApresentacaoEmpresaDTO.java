@@ -22,6 +22,8 @@ public class ApresentacaoEmpresaDTO {
 	
 	private List<ConvenioDTO> convenios;
 	private List<EspecialidadeDTO> especialidades;
+	private List<ExameImagemDTO> examesImg;
+	private List<ExameLaboratorialDTO> examesLab;
 	
 
 	public void  preencher(Empresa e) {
