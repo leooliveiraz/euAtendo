@@ -1,10 +1,12 @@
 package rocha.euAtendo.service;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class EmpresaService {
 		if(erros.isEmpty()) {
 			empresaRepository.save(empresa);
 			usuarioService.salvar(usuario);
-			empresa.setPath_img(salvarimagem(imagem, usuario.getId(), path));
+			empresa.setPath_img(salvarImagem(imagem));
 			empresaRepository.save(empresa);
 		}else {
 			throw new  Exception(erros);
@@ -76,7 +78,7 @@ public class EmpresaService {
 						DateUtil.stringParaData(dto.getDt_nascimento()),new Date(),dto.getSite());
 				empresa_.setId(dto.getId());
 				empresaRepository.save(empresa_);
-				empresa_.setPath_img(salvarimagem(dto.getFotoempresa(),empresa.getId(), path));
+				empresa_.setPath_img(salvarImagem(dto.getFotoempresa()));
 				empresaRepository.save(empresa_);
 
 			}else {
@@ -121,23 +123,60 @@ public class EmpresaService {
 	}
 
 
-	private String salvarimagem(String fotoempresa, Long id , String path) throws IOException {
-		File folder = new File(path);
-		folder.mkdirs();
+	public String salvarImagem(String imagem64 ) {
+		String retorno = sendPost("http://localhost:8080/imagem/salvar", imagem64);
+		return retorno;
+	}
 
-		String nomearquivo = id.toString()+"_";
+	public String sendPost(String url, String json) {
 
-		String arrayImg[] = fotoempresa.split(",");
-		String base64ImageEmpresa = arrayImg[1];
-		String extension = fotoempresa.replace(";", "/").split("/")[1];
-		String fileName = nomearquivo + "." + extension;
-		String patharquivo = path+fileName;
-		byte[] decodedByteEmpresa = Base64.getMimeDecoder().decode(base64ImageEmpresa);
-		FileOutputStream fos = new FileOutputStream(patharquivo);
-		fos.write(decodedByteEmpresa);
-		fos.close();
+	    try {
+	        // Cria um objeto HttpURLConnection:
+	        HttpURLConnection request = (HttpURLConnection) new URL(url).openConnection();
 
-		return patharquivo;
+	        try {
+	            // Define que a conexão pode enviar informações e obtê-las de volta:
+	            request.setDoOutput(true);
+	            request.setDoInput(true);
+
+	            // Define o content-type:
+	            request.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+	            // Define o método da requisição:
+	            request.setRequestMethod("POST");
+
+	            // Conecta na URL:
+	            request.connect();
+
+	            // Escreve o objeto JSON usando o OutputStream da requisição:
+	            try (OutputStream outputStream = request.getOutputStream()) {
+	                outputStream.write(json.getBytes());	                
+	            }
+
+	            // Caso você queira usar o código HTTP para fazer alguma coisa, descomente esta linha.
+	            //int response = request.getResponseCode();
+
+	            return readResponse(request);
+	        } finally {
+	            request.disconnect();
+	        }
+	    } catch (IOException ex) {
+	        ex.printStackTrace();
+	        return null;
+	    }
+	}
+
+	private String readResponse(HttpURLConnection request) throws IOException {
+	    ByteArrayOutputStream os;
+	    try (InputStream is = request.getInputStream()) {
+	        os = new ByteArrayOutputStream();
+	        int b;
+	        while ((b = is.read()) != -1) {
+	            os.write(b);
+	        }
+	    }
+	    String response = new String(os.toByteArray());
+	    return response;
 	}
 
 

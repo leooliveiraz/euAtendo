@@ -8,6 +8,6 @@ public class EuAtendoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EuAtendoApplication.class, args);
-		System.out.println("Projeto Iniciado");
+		System.out.println("Projeto euAtendo iniciado.");
 	}
 }
