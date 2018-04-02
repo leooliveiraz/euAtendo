@@ -124,7 +124,7 @@ public class EmpresaService {
 
 
 	public String salvarImagem(String imagem64 ) {
-		String retorno = sendPost("http://localhost:8080/imagem/salvar", imagem64);
+		String retorno = sendPost("https://bdimagens.herokuapp.com/imagem/salvar", imagem64);
 		return retorno;
 	}
 
